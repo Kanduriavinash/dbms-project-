@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<style>
+:root {
+  --surface: #161b22;
+  --surface-lite: #222a35;
+  --accent: #58a6ff;
+  --text: #f8f9fa;
+  --border: #30363d;
+}
+body { background:#0d1117 !important; color:var(--text); font-family:"Poppins",sans-serif; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:1.5rem; }
+.card-title { color:var(--accent); font-weight:700; }
+.form-control { background:var(--surface-lite); border-radius:10px; color:#f8f9fa; border:1px solid var(--border); }
+.btn-primary { background:var(--accent); border-radius:10px; border-color:var(--accent); font-weight:600; color:#1a1a1a!important; }
+.btn-link { color:var(--accent) !important; }
+.alert-light { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03); color:#f8f9fa; }
+</style>
+
+<div class="login-wrapper container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+
+          <h3 class="card-title mb-3">{{ "Admin Login" if type=='admin' else "User Login" }}</h3>
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for cat,msg in messages %}
+                {% if cat != 'success_redirect' %}
+                  <div class="alert alert-light small py-2">{{ msg }}</div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
+              <label class="form-label" style="color:#f8f9fa;">Username</label>
+              <input name="username" class="form-control" required placeholder="username">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" style="color:#f8f9fa;">Password</label>
+              <input name="password" type="password" class="form-control" required placeholder="password">
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <button class="btn btn-primary px-4">{{ "Sign in as Admin" if type=='admin' else "Sign in" }}</button>
+              <a class="btn btn-link" href="/auth/register">Register</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

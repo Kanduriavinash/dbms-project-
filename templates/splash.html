@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Cart - Retail Inventory Management System</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@400;600&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+    body {
+      background-color: #000;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #f8f9fa;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    /* TITLE STYLING */
+    .quickcart-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 6.5rem;
+      letter-spacing: 0.5rem;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: center;
+      perspective: 1000px;
+    }
+
+    .quickcart-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: rotateY(50deg) scale(0.8);
+      animation: reveal 1.6s forwards ease-out;
+      background: linear-gradient(145deg, #999, #222);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px #888, 0 0 40px #aaa;
+    }
+
+    .quickcart-title span:nth-child(1) { animation-delay: 0.1s; }
+    .quickcart-title span:nth-child(2) { animation-delay: 0.25s; }
+    .quickcart-title span:nth-child(3) { animation-delay: 0.4s; }
+    .quickcart-title span:nth-child(4) { animation-delay: 0.55s; }
+    .quickcart-title span:nth-child(5) { animation-delay: 0.7s; }
+    .quickcart-title span:nth-child(6) { animation-delay: 0.85s; }
+    .quickcart-title span:nth-child(7) { animation-delay: 1.0s; }
+    .quickcart-title span:nth-child(8) { animation-delay: 1.15s; }
+    .quickcart-title span:nth-child(9) { animation-delay: 1.3s; }
+    .quickcart-title span:nth-child(10) { animation-delay: 1.45s; }
+
+    @keyframes reveal {
+      0% {
+        opacity: 0;
+        transform: rotateY(50deg) scale(0.8);
+        filter: brightness(0.3);
+      }
+      50% {
+        opacity: 0.8;
+        transform: rotateY(0deg) scale(1.08);
+        filter: brightness(1.4);
+        text-shadow: 0 0 35px #ccc, 0 0 80px #999;
+      }
+      100% {
+        opacity: 1;
+        transform: rotateY(0deg) scale(1);
+        filter: brightness(1);
+        text-shadow: 0 0 10px #777, 0 0 40px #bbb;
+      }
+    }
+
+    /* QUOTE STYLING */
+    .quote {
+      opacity: 0;
+      margin-top: 40px;
+      animation: fadeIn 2s forwards;
+      animation-delay: 3.5s;
+    }
+
+    .quote p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      color: #f8f9fa;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #666;
+    }
+
+    /* GO TO HOME BUTTON */
+    .go-home {
+      opacity: 0;
+      margin-top: 60px;
+      animation: fadeIn 2s forwards;
+      animation-delay: 5s;
+    }
+
+    .go-home a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      background: linear-gradient(90deg, #444, #888);
+      padding: 14px 28px;
+      border-radius: 50px;
+      color: #f8f9fa;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px #666;
+      transition: all 0.3s ease;
+    }
+
+    .go-home a:hover {
+      background: linear-gradient(90deg, #999, #ddd);
+      color: #000;
+      box-shadow: 0 0 30px #ccc;
+      transform: scale(1.05);
+    }
+
+    .go-home i {
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+
+    <div class="quickcart-title">
+      <span>Q</span>
+      <span>U</span>
+      <span>I</span>
+      <span>C</span>
+      <span>K</span>
+      <span>&nbsp;</span>
+      <span>C</span>
+      <span>A</span>
+      <span>R</span>
+      <span>T</span>
+    </div>
+
+    <div class="quote">
+      <p>"Where retail meets efficiency"</p>
+    </div>
+
+    <div class="go-home">
+      <a href="{{ url_for('auth.register') }}"><i class="fa-solid fa-house"></i> GO TO HOME</a>
+    </div>
+
+  </div>
+</body>
+</html>
+

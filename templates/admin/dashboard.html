@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+	.admin-dashboard { color: #f8f9fa !important; }
+	.admin-dashboard h2 { color: #f8f9fa !important; font-weight:700; margin-bottom:1.25rem; }
+	
+	/* Cards with white background for better visibility */
+	.admin-dashboard .card { 
+		background: #ffffff !important; 
+		border: 1px solid #dee2e6 !important; 
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important; 
+		color: #1a1a1a !important; 
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+	.admin-dashboard .card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+	}
+	
+	/* All text in cards should be dark */
+	.admin-dashboard .card * {
+		color: #1a1a1a !important;
+	}
+	
+	.admin-dashboard .card h5 { 
+		color: #1a1a1a !important; 
+		font-weight:600; 
+		margin-bottom:0.5rem; 
+	}
+	.admin-dashboard .card h3 { 
+		color: var(--accent, #4c9efe) !important; 
+		font-weight:700; 
+		font-size: 2rem;
+	}
+	.admin-dashboard .card p { 
+		color: #1a1a1a !important; 
+	}
+	.admin-dashboard .card a {
+		color: var(--accent, #4c9efe) !important;
+	}
+	.admin-dashboard .card a:hover {
+		color: #3a8aee !important;
+		text-decoration: underline;
+	}
+	
+	.admin-dashboard .stat-card {
+		text-align: center;
+		padding: 1.5rem;
+		background: #ffffff !important;
+	}
+	
+	.admin-dashboard .feature-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+	
+	.admin-dashboard .feature-card {
+		background: #ffffff !important;
+		border: 1px solid #dee2e6 !important;
+		border-radius: 8px;
+		padding: 1.5rem;
+		text-align: center;
+		transition: all 0.3s;
+		color: #1a1a1a !important;
+	}
+	.admin-dashboard .feature-card:hover {
+		background: #f8f9fa !important;
+		border-color: var(--accent, #4c9efe) !important;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	}
+	.admin-dashboard .feature-card * {
+		color: #1a1a1a !important;
+	}
+	.admin-dashboard .feature-card a {
+		text-decoration: none;
+		color: #1a1a1a !important;
+		display: block;
+	}
+	.admin-dashboard .feature-card a:hover {
+		color: var(--accent, #4c9efe) !important;
+	}
+	.admin-dashboard .feature-card h5 {
+		color: var(--accent, #4c9efe) !important;
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+	}
+	.admin-dashboard .feature-card p {
+		color: #495057 !important;
+		font-size: 0.9rem;
+		margin: 0;
+	}
+	
+	/* Tables in admin dashboard */
+	.admin-dashboard .table {
+		color: #1a1a1a !important;
+	}
+	.admin-dashboard .table td, .admin-dashboard .table th {
+		color: #1a1a1a !important;
+	}
+	.admin-dashboard .table-dark td, .admin-dashboard .table-dark th {
+		color: #f8f9fa !important;
+	}
+</style>
+
+<div class="admin-dashboard">
+	<h2>📊 Admin Dashboard</h2>
+	
+	<!-- Statistics Cards -->
+	<div class="row mb-4">
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Total Products</h5>
+				<h3>{{ total_products }}</h3>
+				<p><a href="{{ url_for('product.index') }}">Manage Products →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Low Stock Items</h5>
+				<h3>{{ low_stock }}</h3>
+				<p><a href="{{ url_for('inventory.index') }}">View Inventory →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Total Orders</h5>
+				<h3>{{ total_orders }}</h3>
+				<p><a href="{{ url_for('order.index') }}">View Orders →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Sales (30 days)</h5>
+				<h3>₹{{ "%.2f"|format(sales_sum) }}</h3>
+				<p><a href="{{ url_for('reports.sales_report') }}">View Report →</a></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mb-4">
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Total Users</h5>
+				<h3>{{ total_users }}</h3>
+				<p><a href="{{ url_for('user_management.index') }}">Manage Users →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Warehouses</h5>
+				<h3>{{ warehouses_count|default(0) }}</h3>
+				<p><a href="{{ url_for('warehouse.index') }}">Manage Warehouses →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Providers</h5>
+				<h3>{{ providers_count|default(0) }}</h3>
+				<p><a href="{{ url_for('provider.index') }}">Manage Providers →</a></p>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card stat-card">
+				<h5>Recent Orders</h5>
+				<h3>{{ recent_orders|length }}</h3>
+				<p><a href="{{ url_for('order.index') }}">View All →</a></p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Quick Actions Section -->
+	<h3 class="mt-4 mb-3">🚀 Quick Actions</h3>
+	<div class="feature-grid">
+		<div class="feature-card">
+			<a href="{{ url_for('product.create') }}">
+				<h5>➕ Add Product</h5>
+				<p>Create a new product</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('inventory.add') }}">
+				<h5>📦 Add Inventory</h5>
+				<p>Update stock levels</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('warehouse.create') }}">
+				<h5>🏭 Add Warehouse</h5>
+				<p>Create new warehouse</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('provider.create') }}">
+				<h5>🏢 Add Provider</h5>
+				<p>Add new supplier</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('order.create') }}">
+				<h5>📝 Create Order</h5>
+				<p>Manual order entry</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('transfer.create') }}">
+				<h5>🔄 Create Transfer</h5>
+				<p>Transfer between warehouses</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('delivery.create') }}">
+				<h5>🚚 Create Delivery</h5>
+				<p>Record delivery</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('user_management.index') }}">
+				<h5>👥 Manage Users</h5>
+				<p>View and edit users</p>
+			</a>
+		</div>
+	</div>
+
+	<!-- Management Sections -->
+	<h3 class="mt-5 mb-3">📋 Management</h3>
+	<div class="feature-grid">
+		<div class="feature-card">
+			<a href="{{ url_for('product.index') }}">
+				<h5>🛍️ Products</h5>
+				<p>Manage all products</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('inventory.index') }}">
+				<h5>📊 Inventory</h5>
+				<p>View and adjust inventory</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('order.index') }}">
+				<h5>📦 Orders</h5>
+				<p>View and manage orders</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('warehouse.index') }}">
+				<h5>🏭 Warehouses</h5>
+				<p>Manage warehouses</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('provider.index') }}">
+				<h5>🏢 Providers</h5>
+				<p>Manage suppliers</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('transfer.index') }}">
+				<h5>🔄 Transfers</h5>
+				<p>Warehouse transfers</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('delivery.index') }}">
+				<h5>🚚 Deliveries</h5>
+				<p>Delivery records</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('user_management.index') }}">
+				<h5>👥 Users</h5>
+				<p>User management</p>
+			</a>
+		</div>
+	</div>
+
+	<!-- Reports Section -->
+	<h3 class="mt-5 mb-3">📈 Reports & Analytics</h3>
+	<div class="feature-grid">
+		<div class="feature-card">
+			<a href="{{ url_for('reports.index') }}">
+				<h5>📊 Reports Dashboard</h5>
+				<p>All reports overview</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('reports.sales_report') }}">
+				<h5>💰 Sales Report</h5>
+				<p>Revenue and sales analytics</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('reports.inventory_report') }}">
+				<h5>📦 Inventory Report</h5>
+				<p>Stock levels and alerts</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('reports.products_report') }}">
+				<h5>🛍️ Products Report</h5>
+				<p>Product performance</p>
+			</a>
+		</div>
+		<div class="feature-card">
+			<a href="{{ url_for('reports.users_report') }}">
+				<h5>👥 Users Report</h5>
+				<p>User statistics</p>
+			</a>
+		</div>
+	</div>
+
+	<!-- Recent Orders Table -->
+	{% if recent_orders %}
+	<h3 class="mt-5 mb-3">📦 Recent Orders</h3>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-dark table-hover">
+					<thead>
+						<tr>
+							<th>Order ID</th>
+							<th>Customer</th>
+							<th>Date</th>
+							<th>Amount</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in recent_orders[:10] %}
+						<tr>
+							<td>#{{ order.order_id }}</td>
+							<td>
+								{% if order.customer_id %}
+									User #{{ order.customer_id }}
+								{% else %}
+									Guest
+								{% endif %}
+							</td>
+							<td>{{ order.order_date.strftime('%Y-%m-%d %H:%M') if order.order_date else 'N/A' }}</td>
+							<td>₹{{ "%.2f"|format(order.total_amount) }}</td>
+							<td>
+								<span class="badge bg-{% if order.status == 'delivered' %}success{% elif order.status == 'shipped' %}info{% elif order.status == 'cancelled' %}danger{% else %}warning{% endif %}">
+									{{ order.status|upper }}
+								</span>
+							</td>
+							<td>
+								<a href="{{ url_for('order.view', order_id=order.order_id) }}" class="btn btn-sm btn-primary">View</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="text-center mt-3">
+				<a href="{{ url_for('order.index') }}" class="btn btn-outline-primary">View All Orders</a>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+
+{% endblock %}

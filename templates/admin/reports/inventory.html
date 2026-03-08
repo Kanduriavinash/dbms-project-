@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    :root {
+      --surface: #0f1720;
+      --accent: #4c9efe;
+      --muted: rgba(255,255,255,0.75);
+      color-scheme: dark;
+    }
+    body {
+      background: var(--surface);
+      color: #f8f9fa !important;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .container { max-width: 1100px; }
+    .card { 
+      background: #ffffff !important; 
+      border: 1px solid #dee2e6 !important; 
+      border-radius: 12px;
+      color: #1a1a1a !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .card, .card * {
+      color: #1a1a1a !important;
+    }
+    h1, h2, h3, h4, h5, h6 { 
+      color: #f8f9fa !important; 
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .card h1, .card h2, .card h3, .card h4, .card h5, .card h6 {
+      color: #1a1a1a !important;
+    }
+    p, div, span, label {
+      color: #f8f9fa !important;
+    }
+    .card p, .card div, .card span, .card label {
+      color: #1a1a1a !important;
+    }
+    .text-muted {
+      color: rgba(248, 249, 250, 0.85) !important;
+    }
+    .card .text-muted {
+      color: #495057 !important;
+    }
+    a { 
+      color: var(--accent) !important; 
+      text-decoration: none;
+    }
+    a:hover {
+      color: #6ba3ff !important;
+      text-decoration: underline;
+    }
+    input.form-control, textarea.form-control, select.form-select {
+      color: #1a1a1a !important;
+      background: #ffffff !important;
+      border: 1px solid #ced4da !important;
+    }
+    input.form-control:focus, textarea.form-control:focus, select.form-select:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 0.2rem rgba(76, 158, 254, 0.25) !important;
+    }
+    .table {
+      color: #1a1a1a !important;
+    }
+    .table-dark {
+      background: #212529 !important;
+      color: #f8f9fa !important;
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) {
+      background-color: rgba(0,0,0,0.05) !important;
+    }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000000 !important;
+    }
+    .btn-primary:hover {
+      background: #3a8aee;
+      border-color: #3a8aee;
+      color: #000000 !important;
+    }
+    .btn-success {
+      background: #28a745;
+      border-color: #28a745;
+      color: #1a1a1a !important;
+    }
+    .btn-danger {
+      background: #dc3545;
+      border-color: #dc3545;
+      color: #1a1a1a !important;
+    }
+    .btn-warning {
+      background: #ffc107;
+      border-color: #ffc107;
+      color: #1a1a1a !important;
+    }
+    .btn-info {
+      background: #17a2b8;
+      border-color: #17a2b8;
+      color: #1a1a1a !important;
+    }
+    .list-group-item {
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      border: 1px solid #dee2e6 !important;
+    }
+    label, .form-label {
+      color: #f8f9fa !important;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .card label, .card .form-label {
+      color: #1a1a1a !important;
+    }
+    strong, b {
+      color: #f8f9fa !important;
+      font-weight: 600;
+    }
+    .card strong, .card b {
+      color: #1a1a1a !important;
+    }
+    .text-primary {
+      color: var(--accent) !important;
+    }
+    .table td, .table th {
+      padding: 12px !important;
+      vertical-align: middle;
+      color: #1a1a1a !important;
+    }
+    .table-dark td, .table-dark th {
+      color: #f8f9fa !important;
+    }
+    .card-header {
+      background: #212529 !important;
+      color: #f8f9fa !important;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .card-header h5, .card-header h4, .card-header h3 {
+      color: #f8f9fa !important;
+    }
+    .card a {
+      color: var(--accent) !important;
+    }
+    .card a:hover {
+      color: #3a8aee !important;
+      text-decoration: underline;
+    }
+    .badge {
+      color: #f8f9fa !important;
+      font-weight: 500;
+    }
+    .badge.bg-warning {
+      color: #1a1a1a !important;
+    }
+    .card-body * {
+      color: #1a1a1a !important;
+    }
+    .card-body h1, .card-body h2, .card-body h3, .card-body h4, .card-body h5, .card-body h6 {
+      color: #1a1a1a !important;
+    }
+    .card-body .btn-primary,
+    .card-body .btn-primary * {
+      color: #000000 !important;
+    }
+    .card-body .btn-primary:hover,
+    .card-body .btn-primary:hover * {
+      color: #000000 !important;
+    }
+    .btn-outline-primary {
+      color: var(--accent) !important;
+      border-color: var(--accent) !important;
+      background: transparent !important;
+    }
+    .btn-secondary {
+      background: #6c757d;
+      border-color: #6c757d;
+      color: #ffffff !important;
+    }
+    .btn-secondary:hover {
+      background: #5a6268;
+      border-color: #545b62;
+      color: #ffffff !important;
+    }
+    .btn-outline-primary:hover {
+      color: #000000 !important;
+      background: var(--accent) !important;
+      border-color: var(--accent) !important;
+    }
+    .btn-outline-secondary {
+      color: #495057 !important;
+      border-color: #6c757d !important;
+      background: transparent !important;
+    }
+    .btn-outline-secondary:hover {
+      color: #000000 !important;
+      background: #6c757d !important;
+      border-color: #6c757d !important;
+    }
+    * {
+      visibility: visible !important;
+    }
+    .card, .card * {
+      visibility: visible !important;
+    }
+</style>
+<div class="container mt-4">
+    <h2>📦 Inventory Report</h2>
+    <a href="{{ url_for('reports.index') }}" class="btn btn-secondary mb-3">← Back to Reports</a>
+    
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <h5>Total Inventory Value</h5>
+            <h3 class="text-success">₹{{ "%.2f"|format(total_value) }}</h3>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5>⚠️ Low Stock Items</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Available</th>
+                                    <th>Reorder Point</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inv in low_stock %}
+                                <tr>
+                                    <td>{{ inv.product.product_name if inv.product else 'N/A' }}</td>
+                                    <td><span class="badge bg-warning">{{ inv.quantity_available }}</span></td>
+                                    <td>{{ inv.reorder_point }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted">No low stock items.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger">
+                    <h5>❌ Out of Stock</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Available</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inv in out_of_stock %}
+                                <tr>
+                                    <td>{{ inv.product.product_name if inv.product else 'N/A' }}</td>
+                                    <td><span class="badge bg-danger">0</span></td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted">No out of stock items.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5>All Inventory</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Warehouse</th>
+                            <th>Quantity Available</th>
+                            <th>Reorder Point</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inv in all_inventory %}
+                        <tr>
+                            <td>{{ inv.product.product_name if inv.product else 'N/A' }}</td>
+                            <td>{{ inv.warehouse.warehouse_name if inv.warehouse else 'N/A' }}</td>
+                            <td>{{ inv.quantity_available }}</td>
+                            <td>{{ inv.reorder_point or 'N/A' }}</td>
+                            <td>₹{{ "%.2f"|format((inv.product.unit_price or 0) * inv.quantity_available) }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No inventory data.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
