@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 class Config:
     # PostgreSQL connection string format: postgresql://username:password@host:port/database
     # Default to PostgreSQL (can be overridden by DATABASE_URL environment variable)
