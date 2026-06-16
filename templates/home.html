@@ -63,7 +63,7 @@ strong,b{color:#f8f9fa!important;font-weight:600}
 			{% endif %}
 
 			<h5 class="mb-2">{{ p.product_name }}</h5>
-			<div class="mb-2"><strong class="text-primary">₹{{ "%.2f"|format(p.unit_price) }}</strong></div>
+			<div class="mb-2"><strong class="text-primary">₹{{ "%.2f"|format(p.unit_price or 0) }}</strong></div>
 			<p class="text-muted mb-3"><small>Stock: {{ p.quantity }}</small></p>
 			<div class="d-flex align-items-center mt-auto">
 				<input class="form-control form-control-sm me-2" type="number" min="1" max="{{ p.quantity }}" value="1" style="width:70px;" id="q{{ p.product_id }}">

@@ -68,7 +68,7 @@ strong,b{color:#f8f9fa!important;font-weight:600}
       {% endif %}
       
       <h5 class="mb-2">{{ p.product_name }}</h5>
-      <div class="mb-2"><strong class="text-primary">₹{{ "%.2f"|format(p.unit_price) }}</strong></div>
+      <div class="mb-2"><strong class="text-primary">₹{{ "%.2f"|format(p.unit_price or 0) }}</strong></div>
       <p class="text-muted mb-2"><small>Stock: {{ p.quantity }}</small></p>
       {% if p.product_description %}
         <p class="mb-3"><small>{{ p.product_description[:100] }}{% if p.product_description|length > 100 %}...{% endif %}</small></p>

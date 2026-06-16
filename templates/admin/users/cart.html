@@ -70,8 +70,8 @@ strong,b{color:#f8f9fa!important;font-weight:600}
                         <tr>
                             <td>{{ item.product.product_name if item.product else 'N/A' }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>₹{{ "%.2f"|format(item.unit_price) }}</td>
-                            <td>₹{{ "%.2f"|format(item.unit_price * item.quantity) }}</td>
+                            <td>₹{{ "%.2f"|format(item.unit_price or 0) }}</td>
+                            <td>₹{{ "%.2f"|format((item.unit_price or 0) * (item.quantity or 1)) }}</td>
                         </tr>
                         {% else %}
                         <tr>
