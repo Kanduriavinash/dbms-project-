@@ -348,7 +348,7 @@ This project does not currently specify a license.
 
 ## 👨‍💻 Author
 
-**Kanduriavinash**
+**Kanduriavinash and team**
 
 Built with ❤️ as a personal space for writing, reflection, and storytelling.
 
