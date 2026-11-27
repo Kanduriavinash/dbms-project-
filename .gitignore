@@ -1,3 +1,30 @@
-git rm --cached .env
-git commit -m "Remove .env from repo"
-git push
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Local databases and instance data
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Runtime output
+*.log
+logs/
+uploads/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
