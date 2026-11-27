@@ -13,12 +13,12 @@ from flask_wtf import CSRFProtect
 def create_app():
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config.from_object(Config)
-    app.config['SQLALCHEMY_ECHO'] = True  # Enable SQL query logging
+    app.config['SQLALCHEMY_ECHO'] = False
     db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', 'Unknown')
     app.logger.info("=" * 60)
     app.logger.info("DATABASE CONFIGURATION")
     app.logger.info("=" * 60)
-    app.logger.info("DB URL (for SQLAlchemy): %s", db_uri)
+    app.logger.info("Database engine configured (%s).", "SQLite" if "sqlite" in db_uri.lower() else "PostgreSQL" if "postgresql" in db_uri.lower() else "custom")
     if 'sqlite' in db_uri.lower():
         app.logger.warning("⚠️  WARNING: Using SQLite! Set DATABASE_URL to use PostgreSQL!")
         app.logger.warning("   Example: $env:DATABASE_URL='postgresql://user:pass@localhost:5432/rims_db'")
@@ -63,14 +63,6 @@ def create_app():
         app.logger.info("Registered login_user loader.")
     except Exception:
         app.logger.exception("Could not import User for login loader.")
-
-    # debug route early so it's always present
-    @app.route('/debug/cart-test', methods=['POST'])
-    def debug_cart_test():
-        app.logger.info("DEBUG /debug/cart-test - headers: %s", dict(request.headers))
-        app.logger.info("DEBUG /debug/cart-test - form: %s", request.form)
-        app.logger.info("DEBUG /debug/cart-test - json: %s", request.get_json(silent=True))
-        return ('', 204)
 
     # list of blueprint import specs (module, varname)
     blueprints_to_load = [
